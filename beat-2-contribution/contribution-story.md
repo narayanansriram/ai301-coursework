@@ -55,10 +55,18 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: [one line on the tool work]**
+**Unit 5: Built issue-scout, a search-strategy-driven scanner over my unit-1 rubric**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
+I installed the scout over my unit-1 skill, wrote a fit profile and a three-query search
+strategy (`good first issue` across Python, TypeScript, and JavaScript, ranked by
+unassigned/recently-updated/fewest-comments), and ran one scan over the top five ranked
+results. The scan's Maintainer-Alive check almost mis-graded three candidates from the same
+repo as alive, because the repo's `pushedAt` field reflected a dependabot branch push rather
+than default-branch activity; reading the actual default-branch commit dates caught it. I
+didn't change the rubric's wording, since it already names "the last 5 default-branch commit
+dates" as the evidence source — I just had to actually read the branch directly rather than
+trust the repo summary field, and logged that in `scan-notes.md` so I don't skip the step
+next time.
 
 **Unit 6: [one line on the tool work]**
 

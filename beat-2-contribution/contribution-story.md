@@ -171,31 +171,61 @@ first contribution.
 
 **Environment Setup**
 
-[What a stranger would need to stand this up: your operating system,
-the relevant versions (language, runtime, package manager, the project
-itself), and how you set the project up. Then the challenges you faced
-and how you solved them, or that none came up.]
+macOS, Docker 20.10.21 / Compose v2.13.0 available locally. I forked the repo to
+`narayanansriram/Ocelot-Social` and cloned it, copied `webapp/.env.template` and
+`backend/.env.template` to `.env`, and had `docker compose up` ready to go per the README's
+Quick Start. The sandboxed shell I'm working in blocks spinning up long-running background
+containers, so I was not able to actually bring the stack up and drive the browser — I did a
+static code-level reproduction instead, tracing the exact code path through the source rather
+than observing it live, and said so plainly in my findings below rather than claiming a
+browser-verified repro.
 
 **Steps to Reproduce**
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Open `webapp/pages/settings/my-social-media.vue` and click "edit" on an existing social
+   media link. This calls `callbackEditSocialMedia(thisList, link)` (my-social-media.vue:142).
+2. `MySomethingList.vue` sets `isEditing` true and renders the `edit-item` slot under
+   `v-if="isEditing"` (MySomethingList.vue:3) — a fresh mount on every edit, not a show/hide.
+3. The slot content is `<ocelot-input id="editSocialMedia" ...>` with no `autofocus` prop
+   passed (my-social-media.vue:17-23).
+4. Observed result (from source, not the browser): `callbackEditSocialMedia`'s body only sets
+   `formData.socialMediaUrl`; every focus-setting line is commented out:
+   ```js
+   // try to set focus on link edit field
+   // thisList.$refs.socialMediaUrl.$el.focus()
+   // thisList.$scopedSlots['edit-item']()[0].$el.focus()
+   ```
 
 **Reproduction Evidence**
 
-- **Commit showing reproduction:** [link to commit in your fork]
-- **Screenshots/logs:** [if applicable]
-- **My findings:** [what you discovered during reproduction; an
-  honest, evidenced cannot-reproduce that led you to re-pick or ask
-  the maintainer belongs here and costs you nothing]
+- **Commit showing reproduction:** no fix branch yet; evidence below is a read of `master` at
+  my fork, `narayanansriram/Ocelot-Social`.
+- **Screenshots/logs:** none — I could not run the live app in this environment, see findings.
+- **My findings:** The commented-out focus attempts in `my-social-media.vue:142-152` are a
+  direct trail from a prior contributor confirming the field never gets focus today, and that
+  someone already tried (and apparently abandoned) reaching across the slot boundary
+  imperatively from the parent via `$refs`/`$scopedSlots`. What the trace surfaced that I
+  didn't expect: `OcelotInput.vue:13-29` already accepts an `autofocus` prop and forwards it
+  straight to the native element's `autofocus` attribute, and `MySomethingList.vue:3`'s
+  `v-if="isEditing"` confirms the edit slot is freshly mounted each time (not just shown),
+  which is exactly what the HTML `autofocus` attribute needs to fire. So the fix the issue
+  calls "a bit more difficult" is likely a one-line `:autofocus="true"` on the `ocelot-input`
+  in the edit-item slot — no slot-crossing `$refs` hack needed. I plan to confirm this by
+  actually running the app once I have push access and can retry `docker compose up` outside
+  this sandbox, before finalizing the implementation plan.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: repro-check (my Unit 2 skill, patched for the wild in Unit 6's scope.md), graded in
+  live mode against this claim + repro draft
+- What it produced: an ACCEPT verdict across all seven checks, with one honest caveat it made
+  me state explicitly — Behavior-Matches-Issue passed on a code trace, not a browser-observed
+  symptom, since I couldn't run the stack here
+- Difficulties: the sandboxed environment blocked `docker compose up` as a background/risky
+  action, so I couldn't get a live browser reproduction; repro-check's Honest-Outcome check is
+  exactly what pushed me to state that delta plainly instead of writing around it
+- What changed: nothing in the skill itself — it worked as designed and caught the gap between
+  "traced" and "observed" that I'd have been tempted to blur over
 
 ---
 

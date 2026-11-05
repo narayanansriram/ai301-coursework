@@ -1,4 +1,4 @@
-# Contribution: [Issue Title]
+# Contribution: Auto-focus URL field while editing in social media list
 
 Path: `beat-2-contribution/contribution-story.md`
 
@@ -8,10 +8,9 @@ format criteria grade exactly that. Your course repo link is the whole submissio
 files and no evidence uploads are part of Assignment 5.
 
 **Contribution Number:** [1]
-**Student:** [Student name]
-**GitHub Username:** [your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comments upstream are identified by this name.]
-**Issue:** [GitHub issue link]
+**Student:** Sriram Narayanan
+**GitHub Username:** narayanansriram
+**Issue:** https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800
 **Pull Request:** [GitHub PR link, once opened]
 
 One repository, built across units 5 to 8, telling the whole story of your real
@@ -68,11 +67,23 @@ dates" as the evidence source — I just had to actually read the branch directl
 trust the repo summary field, and logged that in `scan-notes.md` so I don't skip the step
 next time.
 
-**Unit 6: [one line on the tool work]**
+**Unit 6: Installed a voice-guard hook and patched issue-scout's rubric for wild-caught scope**
 
-[2-4 sentences: the voice-guard, the repo-memory file. What broke or
-fell short, and what changed because of it. "Nothing broke" counts when
-it is true - say how you know.]
+I folded the three per-unit voice-guide copies into one canonical `voice-guide.md`, added an
+"Upstream: how I talk to maintainers" section covering claims/questions/pings, and wired a
+`PreToolUse` hook (`check_voice.py`) that blocks a comment-posting command unless it matches
+the guide's rules — verified it by running `gh issue comment --help` in a fresh session and
+confirming the hook stopped it. I also patched `issue-scout/rubric.md`: the unit-1
+`Scope-Fits-Newcomer` check was too strict for real repos (it had rejected real, claimable
+issues over open design edges), so I replaced it with a `scope-feasible` check plus a
+difficulty note (straightforward/moderate/ambitious) that no longer gates the verdict. One
+thing I changed my mind on: the patch flipped `home-assistant/frontend#5276` from reject to
+accept, and I nearly switched my pick to it, but a live repro check showed the issue's most
+recent investigator called it "not reproducible" and recommended closing it — so I stayed
+with Ocelot #4800, whose open edge (an undocumented Vue slot boundary) is a scoping question
+rather than a does-this-bug-exist question. Nothing broke in the hook itself once the user
+added the `PreToolUse` block to `settings.json` by hand (I'm blocked from self-editing that
+file) — confirmed present via a verification one-liner before relying on it.
 
 **Unit 7: [one line on the tool work]**
 
@@ -88,24 +99,44 @@ drafted, what you did with the draft.]
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs in your own words: how you searched, what your scan
-surfaced, what your scout's verdict said, why this issue fits your
-profile, and what you hope to learn. If your scout's verdict on it
-was reject and you chose it anyway, say so here and say why; choosing
-against your own tool silently is what loses points. Close with an
-honest read of the tool itself: where the scout fell short on a real
-wild search and what you changed or would change, or what convinced
-you it held up. **Record the link to your claim comment in this section too.**
-Not claimed yet? Write `claim pending` and today's date where the link goes,
-and add the link the moment your claim lands.]
+I picked this issue directly (a hand-fed URL rather than a scan hit) because the fit profile
+I'd written for issue-scout is centered on reading unfamiliar codebases and getting
+comfortable with real UI component boundaries, and this issue — "auto-focus the URL field
+while editing in a social media list" — is a small, self-contained Vue behavior change that
+fits that profile closely. I graded it with my scout and it came back **ACCEPT**: the
+maintainers pushed to the default branch the same day I graded it, the repo isn't archived
+and has an active release, there's no AI-contribution ban in CONTRIBUTING.md, and nobody has
+ever claimed or commented on the issue in the roughly four years it's been open.
+
+What the scout's verdict doesn't fully capture is the issue's real difficulty. Under my Unit
+6 rubric patch (`scope-feasible` replacing the stricter `Scope-Fits-Newcomer` check), it still
+accepts, but now carries a difficulty note of **ambitious**: the issue body itself admits the
+fix "seems to be a bit more difficult" because the editable field lives inside a Vue slot, and
+nothing in the thread names where that slot boundary actually is. I nearly switched my pick
+after the same patch flipped `home-assistant/frontend#5276` from reject to accept, but a live
+repro check on that issue showed its most recent investigator explicitly called the original
+bug report "not reproducible" and recommended closing it — a much worse bet than an issue with
+an honest open edge. Staying with this issue means my first real step upstream is a scoping
+question, not a does-the-bug-still-exist question, which is the trade I'd rather make as a
+first contribution.
+
+**Claim comment:** https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800#issuecomment-6645861233
 
 **Toolkit**
 
-- Tool: issue-scout (your scout: your search strategy, your rubric),
-  and how you used it
-- What it produced: [the scan and its verdict on this issue, described]
-- Difficulties: [where it fell short, or "none met" if none did]
-- What changed: [what you patched or would update, or "nothing"]
+- Tool: issue-scout (my search strategy and unit-1 rubric, patched in Unit 6), used in direct
+  mode by hand-feeding it this issue's URL rather than via a scan
+- What it produced: an ACCEPT verdict with all six checks passing, plus (after the Unit 6
+  patch) a `scope-feasible` pass and an "ambitious" difficulty note flagging the undocumented
+  Vue slot boundary as the issue's real open edge
+- Difficulties: the pre-patch rubric's scope check conflated "is this one piece of work" with
+  "is this confirmed-reproducible," which nearly cost me a correct pick (it flipped
+  `home-assistant/frontend#5276` to accept even though that issue's own thread says the bug
+  can't be reproduced) — the scout's verdict alone wasn't enough there; I had to run a live
+  repro check to catch it
+- What changed: replaced the `Scope-Fits-Newcomer` check with `scope-feasible` plus a
+  difficulty note (logged in `scan-notes.md`), so scope now informs rather than silently
+  rejecting or silently accepting a real risk
 
 ---
 

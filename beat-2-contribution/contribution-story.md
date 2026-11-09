@@ -122,6 +122,13 @@ first contribution.
 
 **Claim comment:** https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800#issuecomment-6645861233
 
+**Follow-up:** no maintainer response as of several days after the claim (no assignee, no
+volunteers-team invite). Per my voice guide's ping rule — follow up only once the repo's own
+rhythm suggests a reply is overdue, not on my own impatience — I checked other recent threads
+on the repo and found the maintainer responding same-day elsewhere, so I posted a single,
+plain follow-up rather than waiting indefinitely:
+https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800#issuecomment-6753356256
+
 **Toolkit**
 
 - Tool: issue-scout (my search strategy and unit-1 rubric, patched in Unit 6), used in direct

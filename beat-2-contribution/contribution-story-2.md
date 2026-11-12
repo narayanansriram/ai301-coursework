@@ -15,8 +15,10 @@ welcome and never graded; contribution-story.md is the graded one.
 This was my original pick. It's real, substantial work (scout build, reproduction, root-cause
 analysis, implementation plan), but it has no pull request yet: Ocelot-Social's own
 CONTRIBUTING.md requires branching on the main repo rather than a fork (for CI credential
-reasons), which requires a volunteers-team invite after being assigned. I was assigned to the
-issue after a follow-up ping, but as of this writing still have no write access, so there's no
+reasons), which requires a volunteers-team invite. I checked the issue's `assignees` field
+after my follow-up ping and found `["ulfgebhardt"]` — that's the maintainer's own GitHub
+username, not mine, so I have not actually been assigned this issue; I'd misread that signal
+in an earlier draft of this story. I still have no invite and no write access, so there's no
 branch to open a PR from. Rather than leave my whole submission blocked on that invite, I
 picked up a second, independently-workable issue (`Cygnux-Labs/Tracekit#740`, PR #741) as the
 graded contribution in `contribution-story.md`, and kept this one going in parallel here.
@@ -54,9 +56,9 @@ recent investigator called it "not reproducible" and recommended closing it — 
 with Ocelot #4800, whose open edge (an undocumented Vue slot boundary) is a scoping question
 rather than a does-this-bug-exist question. I claimed the issue, got no response for a week,
 and posted a single follow-up ping once I confirmed (by checking other recent threads on the
-repo) that the maintainer typically responds same-day elsewhere. That ping led to an
-assignment, but not yet to the volunteers-team invite needed to actually push a branch — see
-the note at the top of this file for why this contribution has no PR to show yet.
+repo) that the maintainer typically responds same-day elsewhere. That ping still hasn't drawn
+a reply or a volunteers-team invite — see the note at the top of this file for the assignee
+mix-up I caught and corrected, and for why this contribution has no PR to show yet.
 
 ### Unit 7: [one line on the tool work]
 
@@ -304,19 +306,27 @@ or extended spec from the Implementation Plan's step 3.
 
 **2026-11-04 through 2026-11-11**
 
-Claimed the issue, got no response, posted one voice-guide-compliant follow-up ping, and was
-assigned shortly after — but still have no write access as of this writing, so no branch and
-no implementation yet. Kept the reproduction and solution-planning work going in parallel
-rather than waiting idle, so the actual implementation can start immediately once I have
-access.
+Claimed the issue, got no response, and posted one voice-guide-compliant follow-up ping.
+Still no write access as of this writing, so no branch and no implementation yet. Kept the
+reproduction and solution-planning work going in parallel rather than waiting idle, so the
+actual implementation can start immediately once I have access.
+
+**2026-11-11 (correction)**
+
+Re-checked `gh api repos/Ocelot-Social-Community/Ocelot-Social/issues/4800 --jq
+'{assignees:[.assignees[].login]}'` directly and got `{"assignees":["ulfgebhardt"]}` —
+`ulfgebhardt` is the maintainer's own username, so this issue is not assigned to me. An
+earlier draft of this story said "assigned shortly after," which was wrong; I'm correcting it
+here rather than leaving the mismatch between that claim and this section's own evidence.
 
 **Toolkit**
 
 - Tool: `gh api`, checked periodically for assignment/invite status
-- What it produced: confirmed assignment (`assignees: ["ulfgebhardt"]` is actually the
-  maintainer's own self-assignment pattern on this issue, not mine — still waiting on an
-  actual invite to the volunteers team for push access)
-- Difficulties: no control over the maintainer's response timeline
+- What it produced: `{"assignees":["ulfgebhardt"]}` — confirms the issue carries no assignment
+  to me, only the maintainer's own username; no invite exists either
+  (`gh api "user/memberships/orgs?state=pending"` returns `[]`)
+- Difficulties: no control over the maintainer's response timeline; also caught my own
+  misreading of this exact output in an earlier pass of this story and corrected it above
 - What changed: picked up a second, independent contribution (`contribution-story.md`) rather
   than let the whole submission wait on this one
 
@@ -330,8 +340,8 @@ access.
 
 **Maintainer Feedback:**
 
-- 2026-11-11: assigned the issue, but no comment reply and no invite yet; silence beyond the
-  assignment itself is a normal state and costs nothing
+- 2026-11-11: no comment reply, no assignment to me, and no invite; silence is a normal state
+  and costs nothing
 
 **Status:** Blocked (pre-implementation, waiting on write access)
 

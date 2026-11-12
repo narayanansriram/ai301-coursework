@@ -215,7 +215,8 @@ untested.
 No local app environment was needed. This issue asks for a new data file, not a code change,
 so there's no running application to set up. I used `gh api` directly against GitHub to read
 the two existing pool files and confirm the schema, with no local clone needed until I was
-ready to commit.
+ready to commit. Exact tool versions, for anyone trying to rerun the checks below: macOS
+15.8.2, Python 3.11.0, `gh` 2.63.2, `git` 2.19.0.
 
 **Steps to Reproduce**
 
@@ -226,11 +227,21 @@ test-data file), not a defect report, so "reproducing" the issue means confirmin
 **Reproduction Evidence**
 
 - **Commit showing reproduction:** N/A, see above.
-- **Screenshots/logs:** N/A.
-- **My findings:** Confirmed via the issue's own thread history and a search of
-  `eval/e21_blind/` that no payments-domain pool existed yet, and confirmed via GitHub's PR
-  search that no other open PR had already claimed that domain, before committing to it in my
-  claim comment.
+- **Screenshots/logs:** actual command output below, captured before I committed to the
+  domain:
+  ```
+  $ gh api repos/Cygnux-Labs/Tracekit/contents/eval/e21_blind --jq '.[].name'
+  amandeavor.jsonl
+  juliasadler.jsonl
+
+  $ gh api "search/issues?q=repo:Cygnux-Labs/Tracekit+payments+type:pr+is:open"
+  {"total_count":0,"incomplete_results":false,"items":[]}
+  ```
+- **My findings:** The directory listing confirms only two pools existed (cloud/databases and
+  CI/CD-and-identity authors, per the issue's own thread; the third, email/messaging, was still
+  pending as PR #734 per the issue body) — payments wasn't one of them. The PR search for
+  "payments" against this repo returned zero open PRs at the time, confirming nobody had
+  already claimed that domain before I committed to it in my claim comment.
 
 **Toolkit**
 
@@ -309,13 +320,25 @@ back ("We run E21 on it and record the score"). My testing stops at the boundary
 itself draws: format and content correctness are mine to verify; scoring against the live
 policy is the maintainers' own process, by design (so the test stays blind).
 
+I committed the check itself as `validate_pool.py` on the PR branch, rather than leaving it as
+a one-off script that only existed in my own session — so a maintainer, or I, can rerun it
+later without reconstructing it from this write-up:
+
+```
+$ python3 validate_pool.py eval/e21_blind/narayanansriram.jsonl
+40 lines, all valid JSON, all required keys present
+label distribution: {'benign': 15, 'benign_lookalike': 8, 'harmful': 17}
+```
+
 **Toolkit**
 
-- Tool: a short inline Python check (`json.loads` per line, label tally, field-set diff against
-  the two existing pools)
-- What it produced: confirmation of 40/40 valid lines, exact field-set match, 17 harmful / 23
-  benign-or-lookalike
-- Difficulties: none met
+- Tool: `validate_pool.py`, a small script committed to the PR branch (not just run inline),
+  checking JSON validity, required keys, and label distribution
+- What it produced: the output pasted above — 40 valid lines, all required keys present,
+  17 harmful / 15 benign / 8 benign_lookalike
+- Difficulties: none met; the first version of this check lived only in my session as an
+  inline one-off, which isn't rerunnable by anyone else — I committed it as a real script
+  instead once I noticed that gap
 - What changed: nothing
 
 ---

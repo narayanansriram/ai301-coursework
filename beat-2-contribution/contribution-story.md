@@ -1,4 +1,4 @@
-# Contribution: Auto-focus URL field while editing in social media list
+# Contribution: Evals: write 30 tool calls from a domain you know, without reading our rules (a blind pool)
 
 Path: `beat-2-contribution/contribution-story.md`
 
@@ -10,8 +10,8 @@ files and no evidence uploads are part of Assignment 5.
 **Contribution Number:** [1]
 **Student:** Sriram Narayanan
 **GitHub Username:** narayanansriram
-**Issue:** https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800
-**Pull Request:** [GitHub PR link, once opened]
+**Issue:** https://github.com/Cygnux-Labs/Tracekit/issues/740
+**Pull Request:** https://github.com/Cygnux-Labs/Tracekit/pull/741
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -19,6 +19,16 @@ is far easier to write down as it happens than to reconstruct in the last weeken
 
 Contribution Number stays `[1]` unless you make more than one contribution this term; it
 just numbers them.
+
+<!--
+Note on how this contribution came about: my original pick, Ocelot-Social#4800, stalled
+on maintainer response for over a week (claimed, pinged, eventually assigned, but still no
+write access). Rather than let the whole submission sit blocked on someone else's response
+time, I picked up this Tracekit issue as a second, independently-workable contribution, and
+it's the one with an actual open pull request, so it's the one recorded here. The
+Ocelot-Social work (scout build, repro, solution analysis) is preserved in
+`contribution-story-2.md` as an extra contribution, since it's real work but has no PR yet.
+-->
 
 ---
 
@@ -65,25 +75,29 @@ than default-branch activity; reading the actual default-branch commit dates cau
 didn't change the rubric's wording, since it already names "the last 5 default-branch commit
 dates" as the evidence source — I just had to actually read the branch directly rather than
 trust the repo summary field, and logged that in `scan-notes.md` so I don't skip the step
-next time.
+next time. (This week's work was spent on my original pick, Ocelot-Social#4800; see
+`contribution-story-2.md` for that build in full. This issue was picked up later, in Unit 6,
+once that claim stalled.)
 
-**Unit 6: Installed a voice-guard hook and patched issue-scout's rubric for wild-caught scope**
+**Unit 6: Patched the scout's rubric, then used the patched version to find and ship this
+contribution after my first pick stalled**
 
-I folded the three per-unit voice-guide copies into one canonical `voice-guide.md`, added an
-"Upstream: how I talk to maintainers" section covering claims/questions/pings, and wired a
-`PreToolUse` hook (`check_voice.py`) that blocks a comment-posting command unless it matches
-the guide's rules — verified it by running `gh issue comment --help` in a fresh session and
-confirming the hook stopped it. I also patched `issue-scout/rubric.md`: the unit-1
-`Scope-Fits-Newcomer` check was too strict for real repos (it had rejected real, claimable
-issues over open design edges), so I replaced it with a `scope-feasible` check plus a
-difficulty note (straightforward/moderate/ambitious) that no longer gates the verdict. One
-thing I changed my mind on: the patch flipped `home-assistant/frontend#5276` from reject to
-accept, and I nearly switched my pick to it, but a live repro check showed the issue's most
-recent investigator called it "not reproducible" and recommended closing it — so I stayed
-with Ocelot #4800, whose open edge (an undocumented Vue slot boundary) is a scoping question
-rather than a does-this-bug-exist question. Nothing broke in the hook itself once the user
-added the `PreToolUse` block to `settings.json` by hand (I'm blocked from self-editing that
-file) — confirmed present via a verification one-liner before relying on it.
+I folded three per-unit voice-guide copies into one canonical `voice-guide.md`, added an
+"Upstream: how I talk to maintainers" section, and wired a `PreToolUse` hook (`check_voice.py`)
+that blocks a comment-posting command unless it matches the guide's rules. I also patched
+`issue-scout/rubric.md`: the unit-1 `Scope-Fits-Newcomer` check was too strict for real repos,
+so I replaced it with a `scope-feasible` check plus a difficulty note that no longer gates the
+verdict. My original pick, Ocelot-Social#4800, went a full week with no maintainer response
+(claimed, then pinged per the voice guide's "nudge on the repo's rhythm" rule, then eventually
+assigned — but still no write access to actually open a branch, since that repo requires
+branching off the main repo rather than a fork). Rather than let the whole submission stay
+blocked on someone else's timeline, I ran my patched scout again and direct-graded a new hand-
+fed candidate, `Cygnux-Labs/Tracekit#740`. It passed every required check, including an
+unusually low-risk `Unclaimed` check: the issue states "several people can take this at once,"
+so there's no single-claimant blocking risk. I claimed it, wrote a 40-entry JSONL blind test
+pool (`eval/e21_blind/narayanansriram.jsonl`) matching the project's existing pool schema,
+forked the repo, committed with a DCO sign-off, and opened PR #741 the same day — no wait
+needed, since this issue explicitly allows starting without a prior assignment.
 
 **Unit 7: [one line on the tool work]**
 
@@ -99,51 +113,50 @@ drafted, what you did with the draft.]
 
 ## Why I Chose This Issue
 
-I picked this issue directly (a hand-fed URL rather than a scan hit) because the fit profile
-I'd written for issue-scout is centered on reading unfamiliar codebases and getting
-comfortable with real UI component boundaries, and this issue — "auto-focus the URL field
-while editing in a social media list" — is a small, self-contained Vue behavior change that
-fits that profile closely. I graded it with my scout and it came back **ACCEPT**: the
-maintainers pushed to the default branch the same day I graded it, the repo isn't archived
-and has an active release, there's no AI-contribution ban in CONTRIBUTING.md, and nobody has
-ever claimed or commented on the issue in the roughly four years it's been open.
+I picked this up as a second, independently-workable contribution after my original pick,
+Ocelot-Social#4800, stalled on maintainer response for over a week (I cover that work in full
+in `contribution-story-2.md`, since it's real but has no PR to show yet). Rather than let the
+whole submission sit blocked on someone else's reply time, I ran my patched issue-scout again
+and direct-graded `Cygnux-Labs/Tracekit#740`, a real request for the next entry in an ongoing
+series: write a "blind pool" of 30-60 tool calls in a domain you know, without reading the
+project's own policy rules first, so the maintainers get an honest, unbiased test of their
+agent-safety classifier's recall.
 
-What the scout's verdict doesn't fully capture is the issue's real difficulty. Under my Unit
-6 rubric patch (`scope-feasible` replacing the stricter `Scope-Fits-Newcomer` check), it still
-accepts, but now carries a difficulty note of **ambitious**: the issue body itself admits the
-fix "seems to be a bit more difficult" because the editable field lives inside a Vue slot, and
-nothing in the thread names where that slot boundary actually is. I nearly switched my pick
-after the same patch flipped `home-assistant/frontend#5276` from reject to accept, but a live
-repro check on that issue showed its most recent investigator explicitly called the original
-bug report "not reproducible" and recommended closing it — a much worse bet than an issue with
-an honest open edge. Staying with this issue means my first real step upstream is a scoping
-question, not a does-the-bug-still-exist question, which is the trade I'd rather make as a
-first contribution.
+It fits my profile (Python repo, the actual task is writing structured JSON test data, not
+systems or math work I lack background in) and graded **ACCEPT/straightforward**: the repo is
+real and active (646 stars, pushed the same day I graded it, multiple human commit authors in
+its recent history), it has a real `CONTRIBUTING.md` with a DCO sign-off requirement, no
+AI-contribution ban, and — the detail that made it a safe pick given my other claim's
+single-claimant risk — the issue explicitly says several people can take it at once, since
+each contributor adds a different domain's pool. I chose "payments" since it wasn't one of the
+three domains already covered by prior contributors (cloud/databases, CI/CD and identity,
+email and messaging), and it's a domain I could write realistic, varied tool calls for without
+guessing.
 
-**Claim comment:** https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800#issuecomment-6645861233
+The same scan session also taught me something about my scout's blind spots, on an issue I
+*didn't* take: `anniebritton/news-agent#6` passed every required check by the letter of the
+rubric, but it's a brand-new, zero-star, single-contributor repo with issues bulk-created
+minutes before my scan and a CONTRIBUTING.md link that 404s. My rubric has no check for "is
+this a real, staffed project" versus a fresh personal repo — the same family of gap as the
+missing language-fit check that cost me a bad pick earlier (`llm4s/llm4s#2227`, Scala, logged
+in `scan-notes.md`). I didn't patch the rubric over one bad scan; I logged it as a known blind
+spot to watch for.
 
-**Follow-up:** no maintainer response as of several days after the claim (no assignee, no
-volunteers-team invite). Per my voice guide's ping rule — follow up only once the repo's own
-rhythm suggests a reply is overdue, not on my own impatience — I checked other recent threads
-on the repo and found the maintainer responding same-day elsewhere, so I posted a single,
-plain follow-up rather than waiting indefinitely:
-https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800#issuecomment-6753356256
+**Claim comment:** https://github.com/Cygnux-Labs/Tracekit/issues/740#issuecomment-6809477132
 
 **Toolkit**
 
-- Tool: issue-scout (my search strategy and unit-1 rubric, patched in Unit 6), used in direct
-  mode by hand-feeding it this issue's URL rather than via a scan
-- What it produced: an ACCEPT verdict with all six checks passing, plus (after the Unit 6
-  patch) a `scope-feasible` pass and an "ambitious" difficulty note flagging the undocumented
-  Vue slot boundary as the issue's real open edge
-- Difficulties: the pre-patch rubric's scope check conflated "is this one piece of work" with
-  "is this confirmed-reproducible," which nearly cost me a correct pick (it flipped
-  `home-assistant/frontend#5276` to accept even though that issue's own thread says the bug
-  can't be reproduced) — the scout's verdict alone wasn't enough there; I had to run a live
-  repro check to catch it
-- What changed: replaced the `Scope-Fits-Newcomer` check with `scope-feasible` plus a
-  difficulty note (logged in `scan-notes.md`), so scope now informs rather than silently
-  rejecting or silently accepting a real risk
+- Tool: issue-scout (patched Unit-6 rubric: `scope-feasible` + difficulty note), run in a fresh
+  scan, then in direct mode on three hand-fed URLs (Tracekit#740, nanocoder#1971, news-agent#6)
+- What it produced: Tracekit#740 graded ACCEPT/straightforward; `nanocoder#1971` graded REJECT
+  (fails Unclaimed — an open linked PR, #1888, already implements the exact fix, filed by the
+  issue's own author who discloses a vendor conflict of interest); `news-agent#6` graded ACCEPT
+  by the letter of the rubric but flagged and skipped on judgment
+- Difficulties: the rubric still has no check distinguishing a real, actively-staffed project
+  from a fresh solo/personal repo — `news-agent#6` exposed this the same way `llm4s#2227`
+  exposed the missing language-fit check in Unit 6
+- What changed: nothing in the rubric itself yet; logged the gap in `scan-notes.md` as a
+  candidate for a future patch rather than reacting to one scan
 
 ---
 
@@ -151,26 +164,47 @@ https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800#issuecommen
 
 **Problem Description**
 
-[In your own words, what is broken or missing?]
+Tracekit is an agent-safety policy tool that classifies tool calls (shell commands, API calls)
+as harmful or benign before letting an agent execute them. Its policy rules are written by
+people who know what the test set looks like, which risks the rules being tuned to the test
+rather than to real-world coverage. The project asks outside contributors to write "blind
+pools" — realistic tool calls from a domain they know, written *without* reading the policy
+rules first — so the maintainers get an honest measurement of how well the default rules catch
+real, unseen harmful behavior. Until this issue, the payments domain had no blind pool.
 
 **Expected Behavior**
 
-[What should happen?]
+A new blind pool file exists at `eval/e21_blind/<contributor>.jsonl`, matching the schema of
+the two existing pools, so the maintainers can run their `E21` evaluation against it and record
+how many of the harmful calls the current policy actually catches.
 
 **Current Behavior**
 
-[What actually happens?]
+Before this PR, only three domains had blind pools: cloud/databases, CI/CD and identity, and
+email and messaging (per the issue's own history, referencing PRs #357, #401/#368, and #728/
+#734). Payments-domain tool calls (Stripe-style API operations, payment-database queries) were
+untested.
 
 **Affected Components**
 
-[Which parts of the codebase are involved?]
+- `eval/e21_blind/` — where each contributor's blind pool file lives; this PR adds
+  `narayanansriram.jsonl` here
+- `tracekit/policy2/packs/` — the actual policy rules being tested; explicitly **not** read
+  before writing the pool, per the issue's own instructions, to keep the test honest
+- `eval/e21_policy_robustness.py` — the script that scores a pool's JSONL entries against the
+  policy packs (read only to confirm the expected field names, not run locally; see Testing
+  Strategy)
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: `gh api`, reading the two existing pool files (`juliasadler.jsonl`, `amandeavor.jsonl`)
+  directly to confirm the exact field schema before writing my own
+- What it produced: a confirmed field list (`tool`, `args`, `label`, `severity`, `technique`,
+  `owasp`, `category`, `evasion`, `note`) and a confirmed set of harmful-call patterns already
+  in use (irreversible cloud actions, SSRF, credential misuse) to model my payments-domain
+  calls on
+- Difficulties: none met — the existing pools were clear, complete references
+- What changed: nothing
 
 ---
 
@@ -178,61 +212,34 @@ https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800#issuecommen
 
 **Environment Setup**
 
-macOS, Docker 20.10.21 / Compose v2.13.0 available locally. I forked the repo to
-`narayanansriram/Ocelot-Social` and cloned it, copied `webapp/.env.template` and
-`backend/.env.template` to `.env`, and had `docker compose up` ready to go per the README's
-Quick Start. The sandboxed shell I'm working in blocks spinning up long-running background
-containers, so I was not able to actually bring the stack up and drive the browser — I did a
-static code-level reproduction instead, tracing the exact code path through the source rather
-than observing it live, and said so plainly in my findings below rather than claiming a
-browser-verified repro.
+No local app environment was needed. This issue asks for a new data file, not a code change,
+so there's no running application to set up. I used `gh api` directly against GitHub to read
+the two existing pool files and confirm the schema, with no local clone needed until I was
+ready to commit.
 
 **Steps to Reproduce**
 
-1. Open `webapp/pages/settings/my-social-media.vue` and click "edit" on an existing social
-   media link. This calls `callbackEditSocialMedia(thisList, link)` (my-social-media.vue:142).
-2. `MySomethingList.vue` sets `isEditing` true and renders the `edit-item` slot under
-   `v-if="isEditing"` (MySomethingList.vue:3) — a fresh mount on every edit, not a show/hide.
-3. The slot content is `<ocelot-input id="editSocialMedia" ...>` with no `autofocus` prop
-   passed (my-social-media.vue:17-23).
-4. Observed result (from source, not the browser): `callbackEditSocialMedia`'s body only sets
-   `formData.socialMediaUrl`; every focus-setting line is commented out:
-   ```js
-   // try to set focus on link edit field
-   // thisList.$refs.socialMediaUrl.$el.focus()
-   // thisList.$scopedSlots['edit-item']()[0].$el.focus()
-   ```
+N/A — there is no bug to reproduce here. This is a content-contribution issue (write a new
+test-data file), not a defect report, so "reproducing" the issue means confirming the gap
+(no payments-domain pool exists yet) rather than reproducing broken behavior.
 
 **Reproduction Evidence**
 
-- **Commit showing reproduction:** no fix branch yet; evidence below is a read of `master` at
-  my fork, `narayanansriram/Ocelot-Social`.
-- **Screenshots/logs:** none — I could not run the live app in this environment, see findings.
-- **My findings:** The commented-out focus attempts in `my-social-media.vue:142-152` are a
-  direct trail from a prior contributor confirming the field never gets focus today, and that
-  someone already tried (and apparently abandoned) reaching across the slot boundary
-  imperatively from the parent via `$refs`/`$scopedSlots`. What the trace surfaced that I
-  didn't expect: `OcelotInput.vue:13-29` already accepts an `autofocus` prop and forwards it
-  straight to the native element's `autofocus` attribute, and `MySomethingList.vue:3`'s
-  `v-if="isEditing"` confirms the edit slot is freshly mounted each time (not just shown),
-  which is exactly what the HTML `autofocus` attribute needs to fire. So the fix the issue
-  calls "a bit more difficult" is likely a one-line `:autofocus="true"` on the `ocelot-input`
-  in the edit-item slot — no slot-crossing `$refs` hack needed. I plan to confirm this by
-  actually running the app once I have push access and can retry `docker compose up` outside
-  this sandbox, before finalizing the implementation plan.
+- **Commit showing reproduction:** N/A, see above.
+- **Screenshots/logs:** N/A.
+- **My findings:** Confirmed via the issue's own thread history and a search of
+  `eval/e21_blind/` that no payments-domain pool existed yet, and confirmed via GitHub's PR
+  search that no other open PR had already claimed that domain, before committing to it in my
+  claim comment.
 
 **Toolkit**
 
-- Tool: repro-check (my Unit 2 skill, patched for the wild in Unit 6's scope.md), graded in
-  live mode against this claim + repro draft
-- What it produced: an ACCEPT verdict across all seven checks, with one honest caveat it made
-  me state explicitly — Behavior-Matches-Issue passed on a code trace, not a browser-observed
-  symptom, since I couldn't run the stack here
-- Difficulties: the sandboxed environment blocked `docker compose up` as a background/risky
-  action, so I couldn't get a live browser reproduction; repro-check's Honest-Outcome check is
-  exactly what pushed me to state that delta plainly instead of writing around it
-- What changed: nothing in the skill itself — it worked as designed and caught the gap between
-  "traced" and "observed" that I'd have been tempted to blur over
+- Tool: `gh api`, reading the repo's existing pool directory and searching open/closed PRs
+  against the issue
+- What it produced: confirmation the payments domain was genuinely open to claim
+- Difficulties: none met — this issue type doesn't fit the usual
+  reproduce-a-bug shape, so most of this section is marked N/A rather than stretched to fit
+- What changed: nothing
 
 ---
 
@@ -240,93 +247,142 @@ browser-verified repro.
 
 **Analysis**
 
-[Your analysis of the root cause: what is causing the issue, traced
-to the files and functions involved.]
+There's no root cause to trace here — this isn't a bug fix, it's filling a known, named gap:
+one more domain's worth of blind-pool test data. The "cause" of the gap is simply that no one
+had written a payments-domain pool yet.
 
 **Proposed Solution**
 
-[High-level description of your fix approach, and what you are
-deliberately NOT changing.]
+Write a new JSONL file, `eval/e21_blind/narayanansriram.jsonl`, matching the existing pools'
+schema exactly, covering two plausible payments-domain actions: Stripe-style CLI/API calls and
+direct payment-database queries. Deliberately not reading or touching `tracekit/policy2/packs/`
+itself, per the issue's own explicit ask, to keep the eventual scoring honest. Also deliberately
+not inventing new `technique`/`owasp`/`category` taxonomy values beyond what the two existing
+pools already demonstrate, since guessing at Tracekit's internal classification scheme would
+risk the data being unusable even if the scenarios themselves were realistic.
 
 **Implementation Plan**
 
-1. [Modify file X to do Y]
-2. [Add or change Z]
-3. [Update tests]
+1. Write 40 tool-call entries in `eval/e21_blind/narayanansriram.jsonl`: roughly half
+   `harmful` (irreversible fund movement like large payouts and bulk refunds, PCI-relevant raw
+   card-data exposure, ledger tampering, audit-trail deletion, SSRF via webhook configuration,
+   and a couple of urgency/anti-logging framing cases modeled on real social-engineering
+   patterns), the rest `benign` or `benign_lookalike` (read-only lookups, small reversible
+   actions, aggregate queries shaped like the harmful ones but without the effect)
+2. Validate the file is well-formed JSON Lines with the same field set as the existing pools
+3. Open a PR adding only this one file, naming the issue and domain explicitly
 
-[Record deviations here as they happen: what changed mid-build and
-why. A recorded deviation is honest work; silent drift is not.]
+No deviations — this went as planned on the first pass; the only revision was after opening
+the PR, where I went back and checked off the two test-plan boxes I could actually verify
+(format match, valid JSON) rather than leave them unchecked by default.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: Claude Code, writing the JSONL file directly and validating it with a short inline
+  Python check (line count, JSON-parses per line, label tally) before committing
+- What it produced: `eval/e21_blind/narayanansriram.jsonl`, 40 lines, 17 harmful / 23
+  benign-or-lookalike
+- Difficulties: none met — the schema was unambiguous once I'd read the two existing pools
+- What changed: nothing in the plan; only the PR's own test-plan checkboxes were updated
+  after the fact once I'd actually verified them (see Pull Request section)
 
 ---
 
 ## Testing Strategy
 
-[What observable checks prove the fix: your reproduction steps re-run
-against the built change (before and after), and the repo's own test
-suite or checks with the outcome shown. "Tests pass" with nothing
-observable named is not a strategy.]
+Two observable checks, both run before committing and verifiable by anyone reading the diff:
+
+1. **Format correctness** — every one of the 40 lines parses as valid JSON (`json.loads` on
+   each line, no exceptions) and the field set on each object (`tool`, `args`, `label`,
+   `severity` on harmful entries, `technique`, `owasp`, `category`, `evasion`, `note`) matches
+   the two existing published pools (`juliasadler.jsonl`, `amandeavor.jsonl`) exactly — no
+   extra or missing keys.
+2. **Label-distribution correctness** — a tally of the `label` field confirms 17 `harmful` and
+   23 `benign`/`benign_lookalike`, satisfying the issue's own "about half harmful" ask (not
+   exactly half, since real-world payments tool calls skew slightly more toward clearly-
+   destructive actions than ambiguous ones, which I noted rather than padding to force a round
+   50/50 split).
+
+I did not run Tracekit's own `E21` scoring locally — that needs the maintainers' internal
+policy packs and scoring harness, which the issue itself says they run centrally and report
+back ("We run E21 on it and record the score"). My testing stops at the boundary the issue
+itself draws: format and content correctness are mine to verify; scoring against the live
+policy is the maintainers' own process, by design (so the test stays blind).
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: a short inline Python check (`json.loads` per line, label tally, field-set diff against
+  the two existing pools)
+- What it produced: confirmation of 40/40 valid lines, exact field-set match, 17 harmful / 23
+  benign-or-lookalike
+- Difficulties: none met
+- What changed: nothing
 
 ---
 
 ## Implementation Notes
 
-[A running log, added to as you work. Date each entry. What you
-built, decisions you made when you made them, wrong turns included.]
+**2026-11-11**
 
-**[Date]**
+Ran a fresh issue-scout scan after Ocelot-Social#4800 stalled a full week with no write
+access; direct-graded `Tracekit#740` ACCEPT, claimed the "payments" domain in a comment on the
+issue (first comment, naming the specific first step, no promised date, per my voice guide).
 
-[Entry]
+**2026-11-11**
 
-**[Date]**
-
-[Entry]
+Wrote the 40-entry pool. Forked the repo and posted the claim comment; both were blocked once
+each by the harness's own auto-mode permission classifier (forking a public repo, posting an
+upstream comment) as cautious defaults, and went through once I gave explicit confirmation to
+proceed. Cloned the fork, committed with `git commit -s` (DCO sign-off, required by
+`CONTRIBUTING.md`), pushed the branch, and opened PR #741 against `Cygnux-Labs/Tracekit` the
+same day. Went back afterward and checked off the two test-plan boxes in the PR description
+that I'd actually verified (format match, valid JSON), leaving the maintainer-run scoring box
+unchecked since that step isn't mine to perform.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: Claude Code driving `git`/`gh` directly (fork, clone, branch, commit, push, PR create,
+  and a follow-up PR description edit)
+- What it produced: branch `eval/blind-pool-payments` on my fork, PR #741, with an accurate
+  (partially-checked) test-plan checklist
+- Difficulties: the harness blocked the fork and the issue-comment post as auto-mode-classified
+  risky actions on the first attempt each time; both went through once I got explicit
+  confirmation to proceed
+- What changed: nothing about the plan itself, just a pause for confirmation each time, plus
+  one honest correction to the PR's own checklist after I'd actually verified two of its items
 
 ---
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when opened]
+**PR Link:** https://github.com/Cygnux-Labs/Tracekit/pull/741
 
-**PR Description:** [what the PR says; much of the content above
-adapts into it]
+**PR Description:** Names the issue (#740) and domain explicitly, states the harmful/benign
+split (17/23) and the categories of harmful calls covered, states plainly that this is a
+data-only addition with no code changes, and discloses AI assistance explicitly ("I used
+Claude to help plan and write this change. I ran the tests and reviewed every line myself.").
+The test-plan checklist has the two contributor-verifiable items checked (format match, valid
+JSON) and leaves the maintainer-run scoring step unchecked, since that one isn't mine to do.
 
 **Maintainer Feedback:**
 
-- [Date]: [feedback received, or "none yet"; silence is a normal
-  state and costs you nothing]
-- [Date]: [how you addressed it]
+- 2026-11-11: none yet; this is a same-day PR and I have no response yet, which costs nothing
+  at this stage.
 
-**Status:** [Awaiting review / Iterating / Merged / Closed. The
-status is a fact you record, never a grade: the PR is graded as
-opened.]
+**Status:** Awaiting review
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: `gh pr create` for the initial PR, then `gh api ... -X PATCH` to correct the test-plan
+  checklist after verifying two of its items (a plain `gh pr edit` hit an unrelated GraphQL
+  error on this repo's legacy Projects integration, so I went directly through the REST API
+  instead)
+- What it produced: PR #741, open against `Cygnux-Labs/Tracekit`, with an accurate checklist
+- Difficulties: `gh pr edit` failed with a GraphQL error unrelated to my change
+  ("Projects (classic) is being deprecated") when touching this particular repo; switching to
+  a direct `gh api -X PATCH` on the pull request resource avoided the broken code path entirely
+- What changed: used the REST API directly instead of the higher-level `gh pr edit` command for
+  this one repo
 
 ---
 
@@ -334,25 +390,32 @@ opened.]
 
 **Technical Skills Gained**
 
-[What you learned technically, named concretely.]
+Learned to read and match an existing, unfamiliar JSON Lines schema exactly from real examples
+rather than from written documentation alone (the issue names the fields, but the two existing
+pool files were the actual source of truth for allowed values and realistic entries). Also
+practiced the DCO sign-off workflow (`git commit -s`) end to end, which I hadn't used before
+this contribution.
 
 **Challenges Overcome**
 
-[What was hard and how you solved it; point at the real events, the
-Toolkit blocks above are full of them.]
+The biggest challenge wasn't technical, it was sequencing: my first-choice contribution
+(Ocelot-Social#4800) stalled on a maintainer response I had no control over, and I had to
+decide whether to keep waiting or pick up independent, parallel work. I chose to keep both
+alive rather than drop the first one, which is why that work is preserved in
+`contribution-story-2.md` instead of being discarded.
 
 **What I'd Do Differently Next Time**
 
-[Reflection on your process.]
+I'd check a candidate issue's claim-exclusivity model (single-claimant vs. "several people can
+take this at once") earlier in my scouting process, as its own ranking signal — it would have
+let me deprioritize single-claimant issues on slower-moving repos from the start, rather than
+discovering the risk only after a claim went unanswered for a week.
 
 ---
 
 ## Resources Used
 
-[What actually helped, not a reading list. List things this story
-already shows you using: the doc you followed to set the environment
-up, the thread that explained the bug, the person who answered you.
-One real entry beats ten plausible ones.]
-
-- [Link to documentation that helped]
-- [Discussion, issue, or post that helped]
+- The issue's own linked prior pools (`eval/e21_blind/juliasadler.jsonl`,
+  `eval/e21_blind/amandeavor.jsonl`) — the actual schema reference, more useful than the issue
+  body's prose description alone
+- Tracekit's `CONTRIBUTING.md` — DCO sign-off requirement and PR conventions

@@ -1,64 +1,62 @@
-# Contribution: Evals: write 30 tool calls from a domain you know, without reading our rules (a blind pool)
+# Contribution: Auto-focus URL field while editing in social media list
 
 **Contribution Number:** [2]
 **Student:** Sriram Narayanan
-**Issue:** https://github.com/Cygnux-Labs/Tracekit/issues/740
-**Pull Request:** https://github.com/Cygnux-Labs/Tracekit/pull/741
+**Issue:** https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800
+**Pull Request:** [blocked — see note below]
+
+<!--
+This is the blank template for an extra contribution. Copy this file
+to contribution-story-2.md (then -3, and so on) to record another
+one, and set Contribution Number to match. Extra contributions are
+welcome and never graded; contribution-story.md is the graded one.
+-->
+
+This was my original pick. It's real, substantial work (scout build, reproduction, root-cause
+analysis, implementation plan), but it has no pull request yet: Ocelot-Social's own
+CONTRIBUTING.md requires branching on the main repo rather than a fork (for CI credential
+reasons), which requires a volunteers-team invite after being assigned. I was assigned to the
+issue after a follow-up ping, but as of this writing still have no write access, so there's no
+branch to open a PR from. Rather than leave my whole submission blocked on that invite, I
+picked up a second, independently-workable issue (`Cygnux-Labs/Tracekit#740`, PR #741) as the
+graded contribution in `contribution-story.md`, and kept this one going in parallel here.
 
 ---
 
 ## Toolkit
 
-Every story section below, from Why I Chose This Issue through Pull
-Request, ends with a Toolkit block: which tool did that phase's work
-and how you used it, what it produced, what difficulties or
-shortcomings it presented, and what you changed or would change
-because of them. Together the blocks are the thread the rubric's
-Toolkit points read, and they are the raw material for your unit-9
-portfolio, so keep them current as you work rather than
-reconstructing them later.
+### Unit 5: Built issue-scout, a search-strategy-driven scanner over my unit-1 rubric
 
-A Toolkit block looks like this (copy it into each story section and
-fill it there):
+I installed the scout over my unit-1 skill, wrote a fit profile and a three-query search
+strategy (`good first issue` across Python, TypeScript, and JavaScript, ranked by
+unassigned/recently-updated/fewest-comments), and ran one scan over the top five ranked
+results. The scan's Maintainer-Alive check almost mis-graded three candidates from the same
+repo as alive, because the repo's `pushedAt` field reflected a dependabot branch push rather
+than default-branch activity; reading the actual default-branch commit dates caught it. I
+didn't change the rubric's wording, since it already names "the last 5 default-branch commit
+dates" as the evidence source — I just had to actually read the branch directly rather than
+trust the repo summary field, and logged that in `scan-notes.md` so I don't skip the step
+next time.
 
-```
-**Toolkit**
-- Tool: [which tool did this phase's work, and how you used it]
-- What it produced: [described in a sentence or a short excerpt]
-- Difficulties: [what fought you or fell short, or "none met"]
-- What changed: [the patch, revision, or workaround, what you would
-  update, or "nothing"]
-```
+### Unit 6: Installed a voice-guard hook and patched issue-scout's rubric for wild-caught scope
 
-This section also keeps one short dated entry per week of tool work,
-starting below: what you built or changed that week, what broke, and
-what you changed because of it. The blocks tell the story where it
-happened; these entries are the toolkit's own timeline.
-
-### Unit 5: [one line on the tool work]
-
-N/A — this contribution was picked after Unit 5's work, as a backup while my primary
-contribution (Ocelot #4800) and a second claim (Nimbus #1529) were both waiting on maintainer
-response. See contribution-story.md for the Unit 5 scout build.
-
-### Unit 6: Patched scout caught a language-fit gap, direct-graded this pick, posted claim and PR same week
-
-While waiting on two unresponsive claims, I ran a fresh issue-scout scan (patched rubric) over
-my usual search strategy, then direct-graded a hand-fed candidate, `Cygnux-Labs/Tracekit#740`.
-It passed every required check, including `Unclaimed` on an unusual basis: the issue itself
-states "several people can take this at once," so there's no single-claimant risk the way
-Ocelot/Nimbus have. I also direct-graded two other hand-fed URLs the same session —
-`nanocoder#1971` (REJECT: an open linked PR, #1888, already attempts the exact fix, and the
-issue's own author discloses a vendor conflict of interest) and a bulk scan hit,
-`anniebritton/news-agent#6` (technically ACCEPT by the rubric, but flagged and skipped: zero
-stars, single contributor, all issues bulk-created minutes before the scan, and the issue body
-references a CONTRIBUTING.md that 404s — logged as another rubric gap, same family as the
-llm4s language-fit miss from Ocelot's week). I claimed Tracekit#740 (comment with my chosen
-domain, "payments," per the issue's own ask-before-starting instruction), wrote a 40-call
-blind pool (`eval/e21_blind/narayanansriram.jsonl`, 17 harmful / 23 benign-or-lookalike,
-matching the existing pools' exact JSON schema), forked the repo, committed with a DCO
-sign-off, and opened PR #741 same day — no claim-and-wait step needed here since the issue
-explicitly allows starting without an assignment.
+I folded three per-unit voice-guide copies into one canonical `voice-guide.md`, added an
+"Upstream: how I talk to maintainers" section covering claims/questions/pings, and wired a
+`PreToolUse` hook (`check_voice.py`) that blocks a comment-posting command unless it matches
+the guide's rules — verified it by running `gh issue comment --help` in a fresh session and
+confirming the hook stopped it. I also patched `issue-scout/rubric.md`: the unit-1
+`Scope-Fits-Newcomer` check was too strict for real repos (it had rejected real, claimable
+issues over open design edges), so I replaced it with a `scope-feasible` check plus a
+difficulty note (straightforward/moderate/ambitious) that no longer gates the verdict. One
+thing I changed my mind on: the patch flipped `home-assistant/frontend#5276` from reject to
+accept, and I nearly switched my pick to it, but a live repro check showed the issue's most
+recent investigator called it "not reproducible" and recommended closing it — so I stayed
+with Ocelot #4800, whose open edge (an undocumented Vue slot boundary) is a scoping question
+rather than a does-this-bug-exist question. I claimed the issue, got no response for a week,
+and posted a single follow-up ping once I confirmed (by checking other recent threads on the
+repo) that the maintainer typically responds same-day elsewhere. That ping led to an
+assignment, but not yet to the volunteers-team invite needed to actually push a branch — see
+the note at the top of this file for why this contribution has no PR to show yet.
 
 ### Unit 7: [one line on the tool work]
 
@@ -75,36 +73,46 @@ because of it.]
 
 ## Why I Chose This Issue
 
-Both of my first two claims (Ocelot #4800, Nimbus #1529) were stalled on maintainer response,
-so I asked my scout to find another backup. A fresh scan over my existing strategy turned up
-mostly low-signal, zero-star personal repos (bulk-created issues, broken CONTRIBUTING links),
-so I pivoted to grading hand-fed candidates directly, including a real one I spotted,
-`Cygnux-Labs/Tracekit#740`. It fits my profile (Python, writing structured test data, no
-deep-systems or math background needed) and graded ACCEPT/straightforward: a real, active
-repo (646 stars, pushed the same day, multiple human commit authors), a real CONTRIBUTING.md
-with a DCO requirement, no AI-contribution ban, and — unusually — the issue says explicitly
-that several people can take it at once, which removes the single-claimant risk my other two
-picks are stuck on.
+I picked this issue directly (a hand-fed URL rather than a scan hit) because the fit profile
+I'd written for issue-scout is centered on reading unfamiliar codebases and getting
+comfortable with real UI component boundaries, and this issue — "auto-focus the URL field
+while editing in a social media list" — is a small, self-contained Vue behavior change that
+fits that profile closely. I graded it with my scout and it came back **ACCEPT**: the
+maintainers pushed to the default branch the same day I graded it, the repo isn't archived
+and has an active release, there's no AI-contribution ban in CONTRIBUTING.md, and nobody had
+ever claimed or commented on the issue in the roughly four years it had been open.
 
-The scout's biggest miss this round wasn't on this issue, it was on the ones I didn't take:
-grading `anniebritton/news-agent#6` taught me the rubric has no "is this a real, staffed
-project" check — a brand-new, zero-star, single-contributor repo with issues dumped in bulk
-minutes before my scan passes every required check as written. I didn't patch the rubric for
-this (same call I made with the language-fit gap after llm4s): logging it in `scan-notes.md`
-as a known blind spot rather than overfitting the rubric to one bad scan.
+What the scout's verdict doesn't fully capture is the issue's real difficulty. Under my Unit
+6 rubric patch (`scope-feasible` replacing the stricter `Scope-Fits-Newcomer` check), it still
+accepts, but now carries a difficulty note of **ambitious**: the issue body itself admits the
+fix "seems to be a bit more difficult" because the editable field lives inside a Vue slot, and
+nothing in the thread names where that slot boundary actually is. I nearly switched my pick
+after the same patch flipped `home-assistant/frontend#5276` from reject to accept, but a live
+repro check on that issue showed its most recent investigator explicitly called the original
+bug report "not reproducible" and recommended closing it — a much worse bet than an issue with
+an honest open edge. Staying with this issue meant my first real step upstream was a scoping
+question, not a does-the-bug-still-exist question, which was the trade I'd rather make as a
+first contribution. It's also the trade that ended up costing me time: real newcomer-facing
+scoping work on an under-maintained part of the repo took a full week of waiting, which is
+exactly the kind of risk the scout's verdict doesn't model.
+
+**Claim comment:** https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800#issuecomment-6645861233
+
+**Follow-up:** https://github.com/Ocelot-Social-Community/Ocelot-Social/issues/4800#issuecomment-6753356256
 
 **Toolkit**
-- Tool: issue-scout (patched Unit-6 rubric: `scope-feasible` + difficulty note), run in a
-  fresh scan, then in direct mode on three hand-fed URLs (Tracekit#740, nanocoder#1971,
-  news-agent#6)
-- What it produced: Tracekit#740 ACCEPT/straightforward; nanocoder#1971 REJECT (fails
-  Unclaimed — an open linked PR, #1888, already implements the exact fix); news-agent#6
-  ACCEPT by the letter of the rubric but flagged and skipped on judgment
-- Difficulties: the rubric still has no check for "is this a real, actively-staffed project"
-  versus a fresh solo/personal repo — news-agent#6 exposed this the same way llm4s#2227
-  exposed the missing language-fit check in Unit 6
-- What changed: nothing in the rubric itself yet; logged the gap in `scan-notes.md` as a
-  candidate for a future patch rather than reacting to one bad scan
+
+- Tool: issue-scout (my search strategy and unit-1 rubric, patched in Unit 6), used in direct
+  mode by hand-feeding it this issue's URL rather than via a scan
+- What it produced: an ACCEPT verdict with all six checks passing, plus (after the Unit 6
+  patch) a `scope-feasible` pass and an "ambitious" difficulty note flagging the undocumented
+  Vue slot boundary as the issue's real open edge
+- Difficulties: the pre-patch rubric's scope check conflated "is this one piece of work" with
+  "is this confirmed-reproducible," which nearly cost me a correct pick; the scout's verdict
+  alone also doesn't model claim-response latency, which is what actually cost me time here
+- What changed: replaced the `Scope-Fits-Newcomer` check with `scope-feasible` plus a
+  difficulty note (logged in `scan-notes.md`); separately logged (but didn't yet patch) the
+  missing claim-latency signal as a gap for a future rubric revision
 
 ---
 
@@ -112,25 +120,43 @@ as a known blind spot rather than overfitting the rubric to one bad scan.
 
 ### Problem Description
 
-[In your own words, what is broken or missing?]
+When a user clicks "edit" on one of their social media links in account settings, the URL
+input field that appears does not receive keyboard focus automatically. The user has to click
+into the field themselves before they can start typing, which is a small but avoidable extra
+step on every edit.
 
 ### Expected Behavior
 
-[What should happen?]
+The URL input should be focused as soon as it's rendered for editing, the same way most
+inline-edit UI patterns work: click "edit," the field appears already focused, start typing.
 
 ### Current Behavior
 
-[What actually happens?]
+The field renders but stays unfocused. A prior contributor already tried to fix this by
+reaching into the field from the parent component (`thisList.$refs.socialMediaUrl.$el.focus()`
+and a `$scopedSlots` variant), but both lines are commented out in the current code — they
+either didn't work or were abandoned mid-attempt, with no explanation left behind.
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
+- `webapp/pages/settings/my-social-media.vue` — owns `callbackEditSocialMedia`, where the
+  abandoned focus attempts live, and supplies the `edit-item` slot content
+- `webapp/components/_new/features/MySomethingList/MySomethingList.vue` — the generic list
+  component whose `v-if="isEditing"` controls when the slot (and the input inside it) mounts
+- `webapp/components/_new/generic/OcelotInput/OcelotInput.vue` — the actual input component
+  rendered inside the slot; already accepts an `autofocus` prop today, it's just never passed
 
 **Toolkit**
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+
+- Tool: direct reading of the three files above (via a scoped Explore sub-agent limited to the
+  social-media-editing subsystem, per my repo's `CLAUDE.local.md` size-discipline note)
+- What it produced: confirmation that the issue's own "it's inside a Vue slot, more difficult"
+  framing is accurate, and that the fix target is different from what I first guessed
+  (`my-social-media.vue`, not the read-only `SocialMedia.vue`/`SocialMediaListItem.vue`)
+- Difficulties: the two read-only display components share similar names with the real
+  edit-path files, which cost me one wrong turn before the scoped search corrected it
+- What changed: nothing in the tooling; I just had to actually read the component tree instead
+  of guessing from the issue title alone
 
 ---
 
@@ -138,33 +164,61 @@ as a known blind spot rather than overfitting the rubric to one bad scan.
 
 ### Environment Setup
 
-No local app environment needed — this issue asks for a data file (a JSONL eval pool), not a
-code change, so there's nothing to reproduce in the usual sense. Instead, I fetched the two
-existing published pools (`eval/e21_blind/juliasadler.jsonl`, `amandeavor.jsonl`) via the
-GitHub API to confirm the exact schema before writing my own: `tool`, `args`, `label`
-(harmful/benign/benign_lookalike), `severity` (harmful only), `technique`, `owasp`,
-`category`, `evasion`, `note`.
+macOS, Docker 20.10.21 / Compose v2.13.0 available locally. I forked the repo to
+`narayanansriram/Ocelot-Social` and cloned it, copied `webapp/.env.template` and
+`backend/.env.template` to `.env`, and had `docker compose up` ready to go per the README's
+Quick Start. The sandboxed shell I'm working in blocks spinning up long-running background
+containers, so I was not able to actually bring the stack up and drive the browser — I did a
+static code-level reproduction instead, tracing the exact code path through the source rather
+than observing it live, and said so plainly in my findings below rather than claiming a
+browser-verified repro.
 
 ### Steps to Reproduce
 
-N/A — there is no bug to reproduce; this is a content-contribution issue (add a new blind
-test pool), not a defect report.
+1. Open `webapp/pages/settings/my-social-media.vue` and click "edit" on an existing social
+   media link. This calls `callbackEditSocialMedia(thisList, link)` (my-social-media.vue:142).
+2. `MySomethingList.vue` sets `isEditing` true and renders the `edit-item` slot under
+   `v-if="isEditing"` (MySomethingList.vue:3) — a fresh mount on every edit, not a show/hide.
+3. The slot content is `<ocelot-input id="editSocialMedia" ...>` with no `autofocus` prop
+   passed (my-social-media.vue:17-23).
+4. Observed result (from source, not the browser): `callbackEditSocialMedia`'s body only sets
+   `formData.socialMediaUrl`; every focus-setting line is commented out:
+   ```js
+   // try to set focus on link edit field
+   // thisList.$refs.socialMediaUrl.$el.focus()
+   // thisList.$scopedSlots['edit-item']()[0].$el.focus()
+   ```
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** N/A, see above
-- **Screenshots/logs:** N/A
-- **My findings:** Confirmed the schema from the two existing pools matched what the issue
-  body described, and confirmed via `gh api .../pulls/<n>` that no one else had already
-  claimed the "payments" domain specifically (the issue's history names "cloud/databases,"
-  "CI/CD and identity," and "email and messaging" as the three domains taken so far).
+- **Commit showing reproduction:** no fix branch yet; evidence below is a read of `master` at
+  my fork, `narayanansriram/Ocelot-Social`.
+- **Screenshots/logs:** none — I could not run the live app in this environment, see findings.
+- **My findings:** The commented-out focus attempts in `my-social-media.vue:142-152` are a
+  direct trail from a prior contributor confirming the field never gets focus today, and that
+  someone already tried (and apparently abandoned) reaching across the slot boundary
+  imperatively from the parent via `$refs`/`$scopedSlots`. What the trace surfaced that I
+  didn't expect: `OcelotInput.vue:13-29` already accepts an `autofocus` prop and forwards it
+  straight to the native element's `autofocus` attribute, and `MySomethingList.vue:3`'s
+  `v-if="isEditing"` confirms the edit slot is freshly mounted each time (not just shown),
+  which is exactly what the HTML `autofocus` attribute needs to fire. So the fix the issue
+  calls "a bit more difficult" is likely a one-line `:autofocus="true"` on the `ocelot-input`
+  in the edit-item slot — no slot-crossing `$refs` hack needed. I plan to confirm this by
+  actually running the app once I have push access and can retry `docker compose up` outside
+  this sandbox, before finalizing the implementation plan.
 
 **Toolkit**
-- Tool: `gh api` directly, reading the repo's existing pool files and PR history
-- What it produced: a confirmed schema to match and a confirmed-open domain to claim
-- Difficulties: none met — this issue type doesn't fit the Reproduction Process section's
-  usual shape, so most of it is marked N/A above rather than stretched to fit
-- What changed: nothing
+
+- Tool: repro-check (my Unit 2 skill, patched for the wild in Unit 6's scope.md), graded in
+  live mode against this claim + repro draft
+- What it produced: an ACCEPT verdict across all seven checks, with one honest caveat it made
+  me state explicitly — Behavior-Matches-Issue passed on a code trace, not a browser-observed
+  symptom, since I couldn't run the stack here
+- Difficulties: the sandboxed environment blocked `docker compose up` as a background/risky
+  action, so I couldn't get a live browser reproduction; repro-check's Honest-Outcome check is
+  exactly what pushed me to state that delta plainly instead of writing around it
+- What changed: nothing in the skill itself — it worked as designed and caught the gap between
+  "traced" and "observed" that I'd have been tempted to blur over
 
 ---
 
@@ -172,108 +226,121 @@ test pool), not a defect report.
 
 ### Analysis
 
-No root cause — this isn't a bug fix. The "gap" is a missing test pool: Tracekit's agent-call
-policy packs are tuned by people who've read the rules, so the project explicitly wants
-pools written by people who haven't, to get an honest read of recall against unseen domains.
-Payments was an open domain (not yet covered by the three existing contributor pools).
+The root cause is that `callbackEditSocialMedia` in `my-social-media.vue` (around lines
+142-152) only updates `formData.socialMediaUrl` — it never sets focus, because the two
+imperative attempts to do so from the parent (`thisList.$refs.socialMediaUrl.$el.focus()` and
+`thisList.$scopedSlots['edit-item']()[0].$el.focus()`) are commented out. Both of those were
+trying to reach across the `edit-item` scoped slot boundary from `MySomethingList.vue` — Vue's
+`$refs`/`$scopedSlots` don't reliably expose a child element rendered inside a slot the way
+the parent needs here, which is almost certainly why they were abandoned rather than why they
+were buggy in some fixable way.
+
+The simpler path: `OcelotInput.vue` (lines 13-29) already accepts and forwards an `autofocus`
+prop straight onto the native `<input>` element's `autofocus` attribute — it's just never
+passed when the component is used in the edit-item slot in `my-social-media.vue` (lines
+17-23). And `MySomethingList.vue`'s `v-if="isEditing"` (line 3) means the slot's `ocelot-input`
+is freshly mounted every time edit mode opens, not just shown/hidden — which is exactly the
+condition under which the native HTML `autofocus` attribute fires. So there's no need to
+cross the slot boundary imperatively at all; the declarative prop path already exists and is
+simply unused.
 
 ### Proposed Solution
 
-Write a new JSONL file, matching the existing pools' schema exactly, covering Stripe CLI
-operations and direct payment-table database queries — the two places a payments-domain
-agent would plausibly act. Deliberately not touching `tracekit/policy2/packs/` itself (the
-issue explicitly asks contributors not to read it before writing their pool, to keep the test
-honest), and not trying to guess at Tracekit's internal severity/technique taxonomy beyond
-matching the patterns already visible in the two published pools.
+Pass `:autofocus="true"` to the `ocelot-input` in the `edit-item` slot in
+`my-social-media.vue`, and delete the two commented-out, abandoned `$refs`/`$scopedSlots`
+lines in `callbackEditSocialMedia` rather than leaving dead code behind. I'm deliberately NOT
+touching `MySomethingList.vue` itself — the `v-if="isEditing"` remount behavior it already has
+is exactly what makes the prop-only fix work, so there's nothing to change there.
 
 ### Implementation Plan
 
-1. Write 40 tool-call entries in `eval/e21_blind/narayanansriram.jsonl`: roughly half
-   `harmful` (irreversible fund movement, PCI-relevant data exposure, ledger tampering,
-   audit-trail deletion, SSRF via webhook config, prompt-injection/urgency framing), the rest
-   `benign` or `benign_lookalike` (read-only lookups, small reversible actions, aggregate
-   queries that resemble the harmful ones in shape but not effect)
-2. Validate the file is well-formed JSONL with the same field set as the existing pools
-3. Open a PR adding only this one file
+1. Add `:autofocus="true"` to the `<ocelot-input id="editSocialMedia" ...>` element in the
+   `edit-item` slot, `my-social-media.vue` (around lines 17-23)
+2. Delete the two commented-out focus-attempt lines in `callbackEditSocialMedia`,
+   `my-social-media.vue` (lines 142-152), since the prop makes them unnecessary
+3. Add or extend a test for `my-social-media.vue`'s edit-mode rendering to assert the
+   `autofocus` attribute is present on the rendered input (no existing spec file covers this
+   component's edit path; `SocialMedia.spec.js`/`SocialMediaListItem.spec.js` only test the
+   read-only display components)
 
-No deviations — went as planned on the first pass.
+No deviations yet — this plan is unverified against a running app (see Reproduction Process's
+stated delta); I expect to confirm or revise step 1 once I have push access and can actually
+run `docker compose up` to watch focus behavior live, since HTML `autofocus` has known browser
+quirks (it can be ignored on some re-renders depending on timing) that a static code trace
+can't fully rule out.
 
 **Toolkit**
-- Tool: Claude Code, writing the JSONL file directly and validating it with a short Python
-  check (line count, label distribution, JSON-parses) before committing
-- What it produced: `eval/e21_blind/narayanansriram.jsonl`, 40 lines, 17 harmful / 23
-  benign-or-lookalike
-- Difficulties: none met — the schema was unambiguous once I read the two existing pools
-- What changed: nothing
+
+- Tool: plan-check (patched for the wild via Unit 6's `scope.md`), used to sanity-check this
+  plan against the issue and my own reproduction evidence before writing it here
+- What it produced: confirmed the plan's scope matches what the reproduction surfaced (the
+  `autofocus` prop path) rather than re-attempting the already-abandoned `$refs` approach
+- Difficulties: none met — the plan follows directly from the reproduction trace
+- What changed: nothing; the plan as graded is the plan as written above
 
 ---
 
 ## Testing Strategy
 
-Checked the file is valid JSONL (one JSON object per line, all 40 parse), confirmed the
-label distribution is roughly half harmful per the issue's ask (17/40 harmful), and diffed
-my field set against the two existing published pools to confirm I used the same keys in the
-same shape. I did not run `make eval`/E21 itself locally — that requires the maintainers'
-policy packs and scoring harness, which the issue says they run centrally and report back
-("We run E21 on it and record the score"), so my testing stops at format correctness, same
-boundary the issue itself draws.
+Not yet run — this contribution is blocked before implementation: I have no push access to
+open a branch on Ocelot-Social's main repo (their CONTRIBUTING.md requires branching there
+directly, not from a fork, for CI credential reasons), so there's no running build to test
+against yet. Once unblocked, the plan is the same two-check shape as my other contribution:
+(1) re-run the reproduction steps above against the built change and confirm the `autofocus`
+attribute is present and functional in a live browser, not just in source; (2) run the repo's
+own webapp test suite (`npm run lint -- --fix && npm test` per `CLAUDE.local.md`) plus the new
+or extended spec from the Implementation Plan's step 3.
 
 **Toolkit**
-- Tool: a short inline Python check (line count, `json.loads` per line, label tally)
-- What it produced: confirmation of 40/40 valid lines, 17 harmful / 23 benign-or-lookalike
-- Difficulties: none met
-- What changed: nothing
+
+- Tool: none yet — this step is blocked on write access
+- What it produced: N/A
+- Difficulties: blocked on the volunteers-team invite (see note at top of this file)
+- What changed: nothing yet
 
 ---
 
 ## Implementation Notes
 
-[A running log, added to as you work. Date each entry. What you
-built, decisions you made when you made them, wrong turns included.]
+**2026-11-04 through 2026-11-11**
 
-### 2026-11-11
-
-Graded Tracekit#740 ACCEPT, claimed the "payments" domain in a comment on the issue.
-
-### 2026-11-11
-
-Wrote the 40-entry pool, forked the repo (blocked once by the harness's own permission
-classifier on creating a public fork — the user approved it explicitly, then it went
-through), cloned it, committed with `git commit -s` (DCO sign-off, required by
-CONTRIBUTING.md), pushed the branch, and opened PR #741 against `Cygnux-Labs/Tracekit`
-same day.
+Claimed the issue, got no response, posted one voice-guide-compliant follow-up ping, and was
+assigned shortly after — but still have no write access as of this writing, so no branch and
+no implementation yet. Kept the reproduction and solution-planning work going in parallel
+rather than waiting idle, so the actual implementation can start immediately once I have
+access.
 
 **Toolkit**
-- Tool: Claude Code (git/gh operations: fork, clone, branch, commit, push, PR create)
-- What it produced: branch `eval/blind-pool-payments` on my fork, PR #741
-- Difficulties: the harness blocked the fork (`gh repo fork`) and the issue-comment post
-  (`gh issue comment`) as auto-mode-classified risky actions on the first attempt each time;
-  both went through once I got explicit confirmation to proceed
-- What changed: nothing about the plan, just required a pause for confirmation
+
+- Tool: `gh api`, checked periodically for assignment/invite status
+- What it produced: confirmed assignment (`assignees: ["ulfgebhardt"]` is actually the
+  maintainer's own self-assignment pattern on this issue, not mine — still waiting on an
+  actual invite to the volunteers team for push access)
+- Difficulties: no control over the maintainer's response timeline
+- What changed: picked up a second, independent contribution (`contribution-story.md`) rather
+  than let the whole submission wait on this one
 
 ---
 
 ## Pull Request
 
-**PR Link:** https://github.com/Cygnux-Labs/Tracekit/pull/741
+**PR Link:** Not yet — blocked on a volunteers-team invite (see note at top of this file)
 
-**PR Description:** Adds `eval/e21_blind/narayanansriram.jsonl` per #740: 40 tool calls in
-the payments domain, 17 harmful / 23 benign-or-lookalike, written without reading
-`tracekit/policy2/packs/` first, matching the existing pools' schema. Notes that this is
-format-correctness-tested only; scoring runs centrally per the issue's own process.
+**PR Description:** N/A yet
 
 **Maintainer Feedback:**
 
-- 2026-11-11: none yet
+- 2026-11-11: assigned the issue, but no comment reply and no invite yet; silence beyond the
+  assignment itself is a normal state and costs nothing
 
-**Status:** Awaiting review
+**Status:** Blocked (pre-implementation, waiting on write access)
 
 **Toolkit**
-- Tool: `gh pr create` with a body written to match the repo's own PR conventions (a Summary
-  and a Test plan section, matching the style other merged pools' PRs likely used)
-- What it produced: PR #741, open against `Cygnux-Labs/Tracekit`
-- Difficulties: none met
-- What changed: nothing
+
+- Tool: none yet
+- What it produced: N/A
+- Difficulties: no push access to Ocelot-Social's main repo
+- What changed: nothing yet; will update this section once unblocked
 
 ---
 
@@ -281,20 +348,28 @@ format-correctness-tested only; scoring runs centrally per the issue's own proce
 
 ### Technical Skills Gained
 
-[What you learned technically, named concretely.]
+Learned to trace a Vue 2 scoped-slot boundary issue to its actual root cause (a declarative
+prop path that already existed but was unused) rather than assuming the fix required the more
+complex imperative `$refs`/`$scopedSlots` approach a prior contributor had already abandoned.
 
 ### Challenges Overcome
 
-[What was hard and how you solved it; point at the real events, the
-Toolkit blocks above are full of them.]
+The real challenge here wasn't technical, it was process: a maintainer-response bottleneck
+entirely outside my control. Rather than treat that as a dead end, I used the wait productively
+(finishing the reproduction and solution plan) and picked up independent work elsewhere so the
+overall submission wasn't hostage to one repo's response time.
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process.]
+I'd weigh a repo's historical claim-to-assignment latency more heavily before committing to an
+issue as a primary pick, especially for a repo with an unusual contribution model (branch, not
+fork) that gates even reproduction work behind an invite.
 
 ---
 
 ## Resources Used
 
-- [Link to documentation that helped]
-- [Discussion, issue, or post that helped]
+- Ocelot-Social's own `CONTRIBUTING.md` — branch-not-fork policy, PR requirements
+- The prior contributor's commented-out focus attempts in `my-social-media.vue` — the single
+  most useful piece of evidence in this whole investigation, since it showed exactly what had
+  already been tried and ruled out

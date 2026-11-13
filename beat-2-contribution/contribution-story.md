@@ -11,7 +11,8 @@ files and no evidence uploads are part of Assignment 5.
 **Student:** Sriram Narayanan
 **GitHub Username:** narayanansriram
 **Issue:** https://github.com/Cygnux-Labs/Tracekit/issues/740
-**Pull Request:** https://github.com/Cygnux-Labs/Tracekit/pull/741
+**Pull Request:** https://github.com/Cygnux-Labs/Tracekit/pull/741 (closed, superseded by and
+merged as https://github.com/Cygnux-Labs/Tracekit/pull/777 — see Pull Request section)
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -99,10 +100,23 @@ pool (`eval/e21_blind/narayanansriram.jsonl`) matching the project's existing po
 forked the repo, committed with a DCO sign-off, and opened PR #741 the same day — no wait
 needed, since this issue explicitly allows starting without a prior assignment.
 
-**Unit 7: [one line on the tool work]**
+**Unit 7: Installed the ship-gate, wrote a real manifest, and ran it against my already-open
+Tracekit branch**
 
-[2-4 sentences: the ship-gate and your gate manifest. What it produced
-on your real branch, what fought you, what changed because of it.]
+I installed the ship-gate against my Tracekit fork clone and wrote `ship-manifest.md` from the
+repo's actual `CONTRIBUTING.md`/Makefile/CI, rather than inventing checks: install, lint, and
+build+package all run clean against my branch. The full test suite was a real problem — it
+takes ~46 minutes, longer than the ship-gate's own 1500-second per-check timeout, and the repo
+names no quicker command, so I ran it by hand once (4923 passed, 10 failed, all 10 confirmed
+pre-existing and unrelated via `git diff --stat` showing my branch touches zero existing code)
+and moved it to the manifest's excluded table with that reasoning, rather than silently
+dropping it. The gate's internal `pr-precheck` call itself failed twice in a row with "no
+fenced JSON block in the pr-precheck output" — a tool-side flakiness I couldn't fix from my
+end, only retry, exactly as its own stop message suggested. By the time I'd normally have
+needed the gate's green light to open a PR, the maintainer had already reviewed, corrected,
+and merged #741 as #777 — so the gate ran retroactively here, confirming the repo-level checks
+I'd need before a future PR rather than gating this one, which was already real work in
+flight before Unit 7's materials existed.
 
 **Unit 8: [one line on the tool work]**
 
@@ -362,6 +376,20 @@ same day. Went back afterward and checked off the two test-plan boxes in the PR 
 that I'd actually verified (format match, valid JSON), leaving the maintainer-run scoring box
 unchecked since that step isn't mine to perform.
 
+**2026-11-12 to 2026-11-13**
+
+Maintainer reviewed #741 with a real scored table (7/17 harmful calls caught, 2/23 harmless
+calls falsely held) and asked for two small corrections: relabel `benign_lookalike` entries as
+`benign` (a naming-convention fix; E21 already scores them identically), and drop
+`validate_pool.py` since a script at the repo root isn't part of the pool format. Rather than
+wait for a follow-up push, they made both changes themselves, carried my original commit
+unchanged (same authorship and sign-off) into a new PR (#777) with the re-recorded results,
+and merged it. The lesson I'm taking from this: my own guess at a reasonable schema detail
+(`benign_lookalike` as its own label, to be more descriptive than the other two pools'
+plainer `benign`) was wrong by the project's actual convention, even though it didn't change
+how the pool scored — matching an existing convention exactly beats improving on it when you
+don't yet know why it's shaped the way it is.
+
 **Toolkit**
 
 - Tool: Claude Code driving `git`/`gh` directly (fork, clone, branch, commit, push, PR create,
@@ -378,7 +406,9 @@ unchecked since that step isn't mine to perform.
 
 ## Pull Request
 
-**PR Link:** https://github.com/Cygnux-Labs/Tracekit/pull/741
+**PR Link:** https://github.com/Cygnux-Labs/Tracekit/pull/741 (closed, superseded by
+https://github.com/Cygnux-Labs/Tracekit/pull/777, which merged my commit unchanged — same
+authorship and sign-off — on top of two maintainer-made corrections)
 
 **PR Description:** Names the issue (#740) and domain explicitly, states the harmful/benign
 split (17/23) and the categories of harmful calls covered, states plainly that this is a
@@ -389,10 +419,19 @@ JSON) and leaves the maintainer-run scoring step unchecked, since that one isn't
 
 **Maintainer Feedback:**
 
-- 2026-11-11: none yet; this is a same-day PR and I have no response yet, which costs nothing
-  at this stage.
+- 2026-11-12: `LoopGlitch26` reviewed #741 with a scored table (7/17 harmful calls held or
+  denied, 2/23 harmless calls falsely held, on both the default and strict packs) and asked
+  for two changes: relabel the seven `benign_lookalike` entries as plain `benign` (matching
+  the convention the other published pools use — E21 scores anything that isn't `harmful` as
+  benign anyway, so this was a naming fix, not a scoring one), and drop `validate_pool.py`
+  since a script at the repo root isn't part of the pool format and E21 reads the pool file
+  directly.
+- 2026-11-13: rather than ask me to push a follow-up commit, the maintainer made both changes
+  themselves and carried my original commit — unchanged, with my authorship and DCO sign-off
+  intact — into PR #777 alongside the re-recorded E21 results, then merged it. #741 closed as
+  superseded.
 
-**Status:** Awaiting review
+**Status:** Merged (via #777)
 
 **Toolkit**
 

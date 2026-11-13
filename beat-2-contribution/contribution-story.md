@@ -328,11 +328,29 @@ Two observable checks, both run before committing and verifiable by anyone readi
    destructive actions than ambiguous ones, which I noted rather than padding to force a round
    50/50 split).
 
-I did not run Tracekit's own `E21` scoring locally — that needs the maintainers' internal
-policy packs and scoring harness, which the issue itself says they run centrally and report
-back ("We run E21 on it and record the score"). My testing stops at the boundary the issue
-itself draws: format and content correctness are mine to verify; scoring against the live
-policy is the maintainers' own process, by design (so the test stays blind).
+At the time I opened PR #741, I hadn't run Tracekit's own `E21` scoring locally — the issue
+says the maintainers run that centrally, and I didn't want to read `tracekit/policy2/packs/`
+myself and break my own blindness before the pool was even finalized. After my pool merged
+(via #777) and the policy packs it would be scored against were no longer something I needed
+to stay blind to, I ran `E21` myself against the merged `main` to confirm the numbers
+first-hand rather than only trust the maintainer's quoted score:
+
+```
+$ python3 eval/e21_policy_robustness.py
+...
+    pool      narayanansriram          caught 7/17 deny 1  FP 2/23
+...
+    pool      narayanansriram          caught 7/17 deny 1  FP 2/23
+...
+$ echo "exit: $?"
+exit: 0
+```
+
+(the pool appears twice because the script scores it against both the `default` and `strict`
+profiles; both report the same 7/17 caught, 2/23 false positives the maintainer quoted on the
+PR, and the run exits 0 — no regression gate tripped.) This matches `LoopGlitch26`'s review
+comment exactly, which is real third-party confirmation that my pool scores the way they said
+it does, not just a claim I'm repeating from the thread.
 
 I committed the check itself as `validate_pool.py` on the PR branch, rather than leaving it as
 a one-off script that only existed in my own session — so a maintainer, or I, can rerun it
@@ -346,14 +364,17 @@ label distribution: {'benign': 15, 'benign_lookalike': 8, 'harmful': 17}
 
 **Toolkit**
 
-- Tool: `validate_pool.py`, a small script committed to the PR branch (not just run inline),
-  checking JSON validity, required keys, and label distribution
-- What it produced: the output pasted above — 40 valid lines, all required keys present,
-  17 harmful / 15 benign / 8 benign_lookalike
-- Difficulties: none met; the first version of this check lived only in my session as an
-  inline one-off, which isn't rerunnable by anyone else — I committed it as a real script
+- Tool: `validate_pool.py` (committed to the branch) for format/label checks before merge,
+  then the repo's own `eval/e21_policy_robustness.py` (E21) run directly against merged
+  `main` after the pool was no longer something I needed to stay blind to
+- What it produced: `validate_pool.py` confirmed 40 valid lines with the right field set;
+  `E21` independently confirmed the exact score the maintainer quoted (7/17 caught, 2/23 false
+  positives, exit 0, no regression)
+- Difficulties: none met; the first version of the format check lived only in my session as
+  an inline one-off, which isn't rerunnable by anyone else — I committed it as a real script
   instead once I noticed that gap
-- What changed: nothing
+- What changed: nothing in the pool itself; added a first-hand E21 run once that became
+  possible, rather than resting the story's evidence on the maintainer's word alone
 
 ---
 
@@ -415,7 +436,10 @@ split (17/23) and the categories of harmful calls covered, states plainly that t
 data-only addition with no code changes, and discloses AI assistance explicitly ("I used
 Claude to help plan and write this change. I ran the tests and reviewed every line myself.").
 The test-plan checklist has the two contributor-verifiable items checked (format match, valid
-JSON) and leaves the maintainer-run scoring step unchecked, since that one isn't mine to do.
+JSON); the scoring box was left unchecked at PR time since E21 wasn't mine to run against
+rules I was meant to stay blind to — closed out after merge by running E21 myself against
+`main` and confirming the exact 7/17 caught / 2/23 false-positive score the maintainer quoted
+(see Testing Strategy above for the full output).
 
 **Maintainer Feedback:**
 
